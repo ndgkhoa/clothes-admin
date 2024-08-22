@@ -24,8 +24,8 @@ export const columns: ColumnDef<CollectionType>[] = [
         id: 'actions',
         cell: ({ row }) => (
             <div>
-                <Update id={row.original._id} />
-                <Delete id={row.original._id} />
+                <Update item="collection" id={row.original._id} />
+                <Delete item="collection" id={row.original._id} />
             </div>
         ),
     },

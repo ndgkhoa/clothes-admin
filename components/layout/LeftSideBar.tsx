@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation'
 
 const LeftSideBar = () => {
     const pathname = usePathname()
+    console.log('path', pathname)
 
     return (
         <div className="h-screen left-0 top-0 sticky p-10 flex flex-col gap-16 bg-blue-2 shadow-xl max-lg:hidden">
@@ -16,8 +17,13 @@ const LeftSideBar = () => {
             <div className="flex flex-col gap-12">
                 {navLinks.map((link) => (
                     <Link
+                        key={link.url}
                         href={link.url}
-                        className={`flex gap-4 text-body-medium ${pathname === link.url ? 'text-blue-1' : 'text-grey-1'}`}
+                        className={`flex gap-4 text-body-medium ${
+                            pathname === link.url || (link.url !== '/' && pathname.startsWith(link.url))
+                                ? 'text-blue-1'
+                                : 'text-grey-1'
+                        }`}
                     >
                         {link.icon}
                         <p>{link.label}</p>

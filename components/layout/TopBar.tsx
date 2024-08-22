@@ -18,6 +18,7 @@ const TopBar = () => {
             <div className="flex gap-8 max-md:hidden">
                 {navLinks.map((link) => (
                     <Link
+                        key={link.url}
                         href={link.url}
                         className={`flex gap-4 text-body-medium ${pathname === link.url ? 'text-blue-1' : 'text-grey-1'}`}
                     >

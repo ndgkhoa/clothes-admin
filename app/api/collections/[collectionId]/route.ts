@@ -2,6 +2,7 @@ import { connectToDB } from '@/lib/mongoDB'
 import { auth } from '@clerk/nextjs/server'
 import Collection from '@/lib/models/Collection'
 import { NextRequest, NextResponse } from 'next/server'
+import Product from '@/lib/models/Product'
 
 export const GET = async (req: NextRequest, { params }: { params: { collectionId: string } }) => {
     try {
@@ -67,6 +68,14 @@ export const DELETE = async (req: NextRequest, { params }: { params: { collectio
         await connectToDB()
 
         await Collection.findByIdAndDelete(params.collectionId)
+
+        await Product.updateMany(
+            {
+                collections: params.collectionId,
+            },
+            { $pull: { collections: params.collectionId } },
+        )
+
         return new NextResponse('Collection is deleted ', { status: 200 })
     } catch (error) {
         console.log('[collectionId_DELETE]', error)
