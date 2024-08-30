@@ -1,4 +1,5 @@
 'use client'
+
 import { Separator } from '@/components/ui/separator'
 import React, { useEffect, useState } from 'react'
 import { z } from 'zod'
@@ -286,28 +287,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                             />
                         )}
 
-                        <FormField
-                            control={form.control}
-                            name="colors"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Colors</FormLabel>
-                                    <FormControl>
-                                        <MultiText
-                                            placeholder="Colors"
-                                            value={field.value}
-                                            onChange={(color) => field.onChange([...field.value, color])}
-                                            onRemove={(colorToRemove) =>
-                                                field.onChange([
-                                                    ...field.value.filter((color) => color !== colorToRemove),
-                                                ])
-                                            }
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-red-1" />
-                                </FormItem>
-                            )}
-                        />
                         <FormField
                             control={form.control}
                             name="sizes"

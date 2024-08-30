@@ -1,4 +1,5 @@
 'use client'
+
 import { columns } from '@/components/collections/CollectionColumn'
 import { DataTable } from '@/components/custom ui/DataTable'
 import Loader from '@/components/custom ui/Loader'

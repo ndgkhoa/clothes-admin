@@ -17,9 +17,7 @@ export const connectToDB = async (): Promise<void> => {
     }
 
     try {
-        await mongoose.connect(mongoUrl, {
-            dbName: 'Borcelle_Admin',
-        })
+        await mongoose.connect(mongoUrl)
         isConnected = true
         console.log('MongoDB is connected')
     } catch (error) {

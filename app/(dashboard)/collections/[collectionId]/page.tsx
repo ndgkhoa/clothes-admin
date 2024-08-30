@@ -1,4 +1,5 @@
 'use client'
+
 import CollectionForm from '@/components/collections/CollectionForm'
 import Loader from '@/components/custom ui/Loader'
 import React, { useEffect, useState } from 'react'

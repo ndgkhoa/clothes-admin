@@ -2,7 +2,6 @@ import { CldUploadWidget } from 'next-cloudinary'
 import { Button } from '../ui/button'
 import { Plus, Trash } from 'lucide-react'
 import Image from 'next/image'
-import React from 'react'
 
 interface ImageUploadProps {
     value: string[]

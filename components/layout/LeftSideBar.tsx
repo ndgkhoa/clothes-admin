@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+
 import Image from 'next/image'
 import { navLinks } from '@/lib/constants'
 import Link from 'next/link'
