@@ -20,7 +20,9 @@ export async function POST(req: NextRequest) {
         const { cartItems, customer } = await req.json()
 
         if (!cartItems || !customer) {
-            return new NextResponse('Not enough data to checkout', { status: 400 })
+            return new NextResponse('Not enough data to checkout', {
+                status: 400,
+            })
         }
 
         const session = await stripe.checkout.sessions.create({
