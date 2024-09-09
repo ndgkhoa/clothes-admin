@@ -4,14 +4,22 @@ import Collection from '@/lib/models/Collection'
 import { NextRequest, NextResponse } from 'next/server'
 import Product from '@/lib/models/Product'
 
-export const GET = async (req: NextRequest, { params }: { params: { collectionId: string } }) => {
+export const GET = async (
+    req: NextRequest,
+    { params }: { params: { collectionId: string } },
+) => {
     try {
         await connectToDB()
 
-        const collection = await Collection.findById(params.collectionId)
+        const collection = await Collection.findById(
+            params.collectionId,
+        ).populate({ path: 'products', model: Product })
 
         if (!collection) {
-            return new NextResponse(JSON.stringify({ message: 'Collection not found' }), { status: 404 })
+            return new NextResponse(
+                JSON.stringify({ message: 'Collection not found' }),
+                { status: 404 },
+            )
         }
 
         return NextResponse.json(collection, { status: 200 })
@@ -21,7 +29,10 @@ export const GET = async (req: NextRequest, { params }: { params: { collectionId
     }
 }
 
-export const POST = async (req: NextRequest, { params }: { params: { collectionId: string } }) => {
+export const POST = async (
+    req: NextRequest,
+    { params }: { params: { collectionId: string } },
+) => {
     try {
         const { userId } = auth()
 
@@ -39,7 +50,9 @@ export const POST = async (req: NextRequest, { params }: { params: { collectionI
         const { title, description, image } = await req.json()
 
         if (!title || !image) {
-            return new NextResponse('Title and image are required', { status: 400 })
+            return new NextResponse('Title and image are required', {
+                status: 400,
+            })
         }
 
         collection = await Collection.findByIdAndUpdate(
@@ -57,7 +70,10 @@ export const POST = async (req: NextRequest, { params }: { params: { collectionI
     }
 }
 
-export const DELETE = async (req: NextRequest, { params }: { params: { collectionId: string } }) => {
+export const DELETE = async (
+    req: NextRequest,
+    { params }: { params: { collectionId: string } },
+) => {
     try {
         const { userId } = auth()
 
@@ -82,3 +98,5 @@ export const DELETE = async (req: NextRequest, { params }: { params: { collectio
         return new NextResponse('Internal error', { status: 500 })
     }
 }
+
+export const dynamic = 'force-dynamic'
