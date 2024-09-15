@@ -12,7 +12,7 @@ const LeftSideBar = () => {
 
     return (
         <div className="h-screen left-0 top-0 sticky p-10 flex flex-col gap-16 bg-blue-2 shadow-xl max-lg:hidden">
-            <Image src="/logo.png" alt="logo" width={150} height={100} />
+            <Image src="/logo.png" alt="logo" width={180} height={100} />
 
             <div className="flex flex-col gap-12">
                 {navLinks.map((link) => (
@@ -20,7 +20,8 @@ const LeftSideBar = () => {
                         key={link.url}
                         href={link.url}
                         className={`flex gap-4 text-body-medium ${
-                            pathname === link.url || (link.url !== '/' && pathname.startsWith(link.url))
+                            pathname === link.url ||
+                            (link.url !== '/' && pathname.startsWith(link.url))
                                 ? 'text-blue-1'
                                 : 'text-grey-1'
                         }`}

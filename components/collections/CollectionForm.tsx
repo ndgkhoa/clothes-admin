@@ -6,7 +6,14 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '../ui/textarea'
 import ImageUpload from '../custom ui/ImageUpload'
@@ -15,8 +22,8 @@ import toast from 'react-hot-toast'
 import Delete from '../custom ui/Delete'
 
 const formSchema = z.object({
-    title: z.string().min(2).max(20),
-    description: z.string().min(2).max(500).trim(),
+    title: z.string().min(2).max(60),
+    description: z.string().min(2).max(600).trim(),
     image: z.string(),
 })
 
@@ -40,7 +47,11 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
               },
     })
 
-    const handleKeyProps = (e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const handleKeyProps = (
+        e:
+            | React.KeyboardEvent<HTMLInputElement>
+            | React.KeyboardEvent<HTMLTextAreaElement>,
+    ) => {
         if (e.key === 'Enter') {
             e.preventDefault()
         }
@@ -49,14 +60,18 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             setLoading(true)
-            const url = initialData ? `/api/collections/${initialData._id}` : '/api/collections'
+            const url = initialData
+                ? `/api/collections/${initialData._id}`
+                : '/api/collections'
             const res = await fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(values),
             })
             if (res.ok) {
                 setLoading(false)
-                toast.success(`Collection ${initialData ? 'updated' : 'created'}`)
+                toast.success(
+                    `Collection ${initialData ? 'updated' : 'created'}`,
+                )
                 window.location.href = '/collections'
                 router.push('/collections')
             }
@@ -78,7 +93,10 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
             )}
             <Separator className="bg-grey-1 mt-4 mb-7" />
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-8"
+                >
                     <FormField
                         control={form.control}
                         name="title"
@@ -86,7 +104,11 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
                             <FormItem>
                                 <FormLabel>Title</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Title" {...field} onKeyDown={handleKeyProps} />
+                                    <Input
+                                        placeholder="Title"
+                                        {...field}
+                                        onKeyDown={handleKeyProps}
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

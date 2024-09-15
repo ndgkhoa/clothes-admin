@@ -12,7 +12,8 @@ const Orders = () => {
 
     const getOrders = async () => {
         try {
-            const res = await fetch('http://localhost:3000/api/orders')
+            const res = await fetch(`/api/orders`)
+
             const data = await res.json()
             setOrders(data)
             setLoading(false)
@@ -37,3 +38,5 @@ const Orders = () => {
 }
 
 export default Orders
+
+export const dynamic = 'force-dynamic'

@@ -6,7 +6,9 @@ const ProductSchema = new mongoose.Schema(
         description: String,
         media: [String],
         category: String,
-        collections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Collections' }],
+        collections: [
+            { type: mongoose.Schema.Types.ObjectId, ref: 'Collection' },
+        ],
         tags: [String],
         sizes: [String],
         colors: [String],
@@ -28,6 +30,7 @@ const ProductSchema = new mongoose.Schema(
     { toJSON: { getters: true } },
 )
 
-const Product = mongoose.models.Product || mongoose.model('Product', ProductSchema)
+const Product =
+    mongoose.models.Product || mongoose.model('Product', ProductSchema)
 
 export default Product

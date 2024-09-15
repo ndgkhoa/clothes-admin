@@ -6,7 +6,14 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '../ui/textarea'
 import ImageUpload from '../custom ui/ImageUpload'
@@ -61,7 +68,12 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: initialData
-            ? { ...initialData, collections: initialData.collections.map((collection) => collection._id) }
+            ? {
+                  ...initialData,
+                  collections: initialData.collections.map(
+                      (collection) => collection._id,
+                  ),
+              }
             : {
                   title: '',
                   description: '',
@@ -76,7 +88,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               },
     })
 
-    const handleKeyProps = (e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const handleKeyProps = (
+        e:
+            | React.KeyboardEvent<HTMLInputElement>
+            | React.KeyboardEvent<HTMLTextAreaElement>,
+    ) => {
         if (e.key === 'Enter') {
             e.preventDefault()
         }
@@ -85,7 +101,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             setLoading(true)
-            const url = initialData ? `/api/products/${initialData._id}` : '/api/products'
+            const url = initialData
+                ? `/api/products/${initialData._id}`
+                : '/api/products'
             const res = await fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(values),
@@ -116,7 +134,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             )}
             <Separator className="bg-grey-1 mt-4 mb-7" />
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-8"
+                >
                     <FormField
                         control={form.control}
                         name="title"
@@ -124,7 +145,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                             <FormItem>
                                 <FormLabel>Title</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Title" {...field} onKeyDown={handleKeyProps} />
+                                    <Input
+                                        placeholder="Title"
+                                        {...field}
+                                        onKeyDown={handleKeyProps}
+                                    />
                                 </FormControl>
                                 <FormMessage className="text-red-1" />
                             </FormItem>
@@ -157,9 +182,18 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                                 <FormControl>
                                     <ImageUpload
                                         value={field.value}
-                                        onChange={(url) => field.onChange([...field.value, url])}
+                                        onChange={(url) =>
+                                            field.onChange([
+                                                ...field.value,
+                                                url,
+                                            ])
+                                        }
                                         onRemove={(url) =>
-                                            field.onChange([...field.value.filter((image) => image !== url)])
+                                            field.onChange([
+                                                ...field.value.filter(
+                                                    (image) => image !== url,
+                                                ),
+                                            ])
                                         }
                                     />
                                 </FormControl>
@@ -211,7 +245,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                                 <FormItem>
                                     <FormLabel>Category</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Category" {...field} onKeyDown={handleKeyProps} />
+                                        <Input
+                                            placeholder="Category"
+                                            {...field}
+                                            onKeyDown={handleKeyProps}
+                                        />
                                     </FormControl>
                                     <FormMessage className="text-red-1" />
                                 </FormItem>
@@ -227,9 +265,19 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                                         <MultiText
                                             placeholder="Tags"
                                             value={field.value}
-                                            onChange={(tag) => field.onChange([...field.value, tag])}
+                                            onChange={(tag) =>
+                                                field.onChange([
+                                                    ...field.value,
+                                                    tag,
+                                                ])
+                                            }
                                             onRemove={(tagToRemove) =>
-                                                field.onChange([...field.value.filter((tag) => tag !== tagToRemove)])
+                                                field.onChange([
+                                                    ...field.value.filter(
+                                                        (tag) =>
+                                                            tag !== tagToRemove,
+                                                    ),
+                                                ])
                                             }
                                         />
                                     </FormControl>
@@ -247,10 +295,19 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                                         <MultiText
                                             placeholder="Colors"
                                             value={field.value}
-                                            onChange={(color) => field.onChange([...field.value, color])}
+                                            onChange={(color) =>
+                                                field.onChange([
+                                                    ...field.value,
+                                                    color,
+                                                ])
+                                            }
                                             onRemove={(colorToRemove) =>
                                                 field.onChange([
-                                                    ...field.value.filter((color) => color !== colorToRemove),
+                                                    ...field.value.filter(
+                                                        (color) =>
+                                                            color !==
+                                                            colorToRemove,
+                                                    ),
                                                 ])
                                             }
                                         />
@@ -271,11 +328,18 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                                                 placeholder="Collections"
                                                 collections={collections}
                                                 value={field.value}
-                                                onChange={(_id) => field.onChange([...field.value, _id])}
+                                                onChange={(_id) =>
+                                                    field.onChange([
+                                                        ...field.value,
+                                                        _id,
+                                                    ])
+                                                }
                                                 onRemove={(idToRemove) =>
                                                     field.onChange([
                                                         ...field.value.filter(
-                                                            (collectionId) => collectionId !== idToRemove,
+                                                            (collectionId) =>
+                                                                collectionId !==
+                                                                idToRemove,
                                                         ),
                                                     ])
                                                 }
@@ -286,7 +350,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                                 )}
                             />
                         )}
-
                         <FormField
                             control={form.control}
                             name="sizes"
@@ -297,9 +360,20 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                                         <MultiText
                                             placeholder="Sizes"
                                             value={field.value}
-                                            onChange={(size) => field.onChange([...field.value, size])}
+                                            onChange={(size) =>
+                                                field.onChange([
+                                                    ...field.value,
+                                                    size,
+                                                ])
+                                            }
                                             onRemove={(sizeToRemove) =>
-                                                field.onChange([...field.value.filter((size) => size !== sizeToRemove)])
+                                                field.onChange([
+                                                    ...field.value.filter(
+                                                        (size) =>
+                                                            size !==
+                                                            sizeToRemove,
+                                                    ),
+                                                ])
                                             }
                                         />
                                     </FormControl>
@@ -313,7 +387,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                         <Button type="submit" className="bg-blue-1 text-white">
                             Submit
                         </Button>
-                        <Button type="button" onClick={() => router.push('/products')} className="bg-blue-1 text-white">
+                        <Button
+                            type="button"
+                            onClick={() => router.push('/products')}
+                            className="bg-blue-1 text-white"
+                        >
                             Discard
                         </Button>
                     </div>

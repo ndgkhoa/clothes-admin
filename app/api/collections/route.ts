@@ -18,11 +18,15 @@ export const POST = async (req: NextRequest) => {
         const existingCollection = await Collection.findOne({ title })
 
         if (existingCollection) {
-            return new NextResponse('Collection already exists', { status: 400 })
+            return new NextResponse('Collection already exists', {
+                status: 400,
+            })
         }
 
         if (!title || !image) {
-            return new NextResponse('Title and image are required', { status: 400 })
+            return new NextResponse('Title and image are required', {
+                status: 400,
+            })
         }
 
         const newCollection = await Collection.create({
@@ -46,9 +50,18 @@ export const GET = async (req: NextRequest) => {
 
         const collections = await Collection.find().sort({ createAt: 'desc' })
 
-        return NextResponse.json(collections, { status: 200 })
+        return new NextResponse(JSON.stringify(collections), {
+            status: 200,
+            headers: {
+                'Access-Control-Allow-Origin': `${process.env.ECOMMERCE_STORE_URL}`,
+                'Access-Control-Allow-Methods': 'GET',
+                'Access-Control-Allow-Headers': 'Content-Type',
+            },
+        })
     } catch (error) {
         console.log('[collections_GET]', error)
         return new NextResponse('Internal Server Error', { status: 500 })
     }
 }
+
+export const dynamic = 'force-dynamic'
