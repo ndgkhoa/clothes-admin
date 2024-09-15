@@ -37,6 +37,7 @@ const TopBar = () => {
                     <div className="absolute top-10 right-6 flex flex-col gap-8 p-5 bg-white shadow-xl rounded-lg">
                         {navLinks.map((link) => (
                             <Link
+                                key={link.url}
                                 href={link.url}
                                 className={`flex gap-4 text-body-medium ${pathname === link.url ? 'text-blue-1' : 'text-grey-1'}`}
                             >

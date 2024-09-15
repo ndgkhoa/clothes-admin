@@ -1,10 +1,11 @@
 'use client'
 
-import { Separator } from '@/components/ui/separator'
-import React, { useState } from 'react'
-import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { useRouter } from 'next/navigation'
+
+import { Separator } from '../ui/separator'
 import { Button } from '@/components/ui/button'
 import {
     Form,
@@ -17,18 +18,18 @@ import {
 import { Input } from '@/components/ui/input'
 import { Textarea } from '../ui/textarea'
 import ImageUpload from '../custom ui/ImageUpload'
-import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import toast from 'react-hot-toast'
 import Delete from '../custom ui/Delete'
 
 const formSchema = z.object({
-    title: z.string().min(2).max(60),
-    description: z.string().min(2).max(600).trim(),
+    title: z.string().min(2).max(20),
+    description: z.string().min(2).max(500).trim(),
     image: z.string(),
 })
 
 interface CollectionFormProps {
-    initialData?: CollectionType | null
+    initialData?: CollectionType | null //Must have "?" to make it optional
 }
 
 const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
@@ -47,7 +48,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
               },
     })
 
-    const handleKeyProps = (
+    const handleKeyPress = (
         e:
             | React.KeyboardEvent<HTMLInputElement>
             | React.KeyboardEvent<HTMLTextAreaElement>,
@@ -75,9 +76,9 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
                 window.location.href = '/collections'
                 router.push('/collections')
             }
-        } catch (error) {
-            console.log('[collections_POST', error)
-            toast.error('Something went wrong')
+        } catch (err) {
+            console.log('[collections_POST]', err)
+            toast.error('Something went wrong! Please try again.')
         }
     }
 
@@ -86,7 +87,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
             {initialData ? (
                 <div className="flex items-center justify-between">
                     <p className="text-heading2-bold">Edit Collection</p>
-                    <Delete item="collection" id={initialData._id} />
+                    <Delete id={initialData._id} item="collection" />
                 </div>
             ) : (
                 <p className="text-heading2-bold">Create Collection</p>
@@ -107,7 +108,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
                                     <Input
                                         placeholder="Title"
                                         {...field}
-                                        onKeyDown={handleKeyProps}
+                                        onKeyDown={handleKeyPress}
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -125,7 +126,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
                                         placeholder="Description"
                                         {...field}
                                         rows={5}
-                                        onKeyDown={handleKeyProps}
+                                        onKeyDown={handleKeyPress}
                                     />
                                 </FormControl>
                                 <FormMessage />
