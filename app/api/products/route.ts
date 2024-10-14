@@ -6,11 +6,11 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export const POST = async (req: NextRequest) => {
     try {
-        const { userId } = auth()
+        // const { userId } = auth()
 
-        if (!userId) {
-            return new NextResponse('Unauthorized', { status: 401 })
-        }
+        // if (!userId) {
+        //     return new NextResponse('Unauthorized', { status: 401 })
+        // }
 
         await connectToDB()
 
