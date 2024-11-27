@@ -29,7 +29,7 @@ const formSchema = z.object({
 })
 
 interface CollectionFormProps {
-    initialData?: CollectionType | null //Must have "?" to make it optional
+    initialData?: CollectionType | null
 }
 
 const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
@@ -142,8 +142,10 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
                                 <FormControl>
                                     <ImageUpload
                                         value={field.value ? [field.value] : []}
-                                        onChange={(url) => field.onChange(url)}
-                                        onRemove={() => field.onChange('')}
+                                        onChange={(urls) => {
+                                            field.onChange(urls[0])
+                                        }}
+                                        onRemove={() => field.onChange([])}
                                     />
                                 </FormControl>
                                 <FormMessage />

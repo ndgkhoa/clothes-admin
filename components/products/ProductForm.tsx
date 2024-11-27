@@ -39,7 +39,7 @@ const formSchema = z.object({
 })
 
 interface ProductFormProps {
-    initialData?: ProductType | null //Must have "?" to make it optional
+    initialData?: ProductType | null
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
@@ -182,19 +182,17 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                                 <FormLabel>Image</FormLabel>
                                 <FormControl>
                                     <ImageUpload
-                                        value={field.value}
-                                        onChange={(url) =>
-                                            field.onChange([
-                                                ...field.value,
-                                                url,
-                                            ])
+                                        value={field.value || []}
+                                        onChange={(images) =>
+                                            field.onChange(images)
                                         }
                                         onRemove={(url) =>
-                                            field.onChange([
-                                                ...field.value.filter(
-                                                    (image) => image !== url,
+                                            field.onChange(
+                                                field.value.filter(
+                                                    (image: string) =>
+                                                        image !== url,
                                                 ),
-                                            ])
+                                            )
                                         }
                                     />
                                 </FormControl>

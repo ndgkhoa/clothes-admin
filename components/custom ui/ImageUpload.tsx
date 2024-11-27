@@ -6,7 +6,7 @@ import React from 'react'
 
 interface ImageUploadProps {
     value: string[]
-    onChange: (value: string) => void
+    onChange: (value: string[]) => void
     onRemove: (value: string) => void
 }
 
@@ -15,8 +15,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     onChange,
     onRemove,
 }) => {
-    const handleSuccess = (result: any) => {
-        onChange(result.info.secure_url)
+    const onUpload = (result: any) => {
+        const imageUrl = result.info.secure_url
+
+        if (!value.includes(imageUrl)) {
+            onChange([...value, imageUrl])
+        }
     }
 
     return (
@@ -44,7 +48,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 ))}
             </div>
 
-            <CldUploadWidget uploadPreset="ff7tib63" onSuccess={handleSuccess}>
+            <CldUploadWidget
+                uploadPreset="ff7tib63"
+                options={{
+                    folder: 'clothes',
+                }}
+                onUpload={onUpload}
+            >
                 {({ open }) => (
                     <Button
                         type="button"
